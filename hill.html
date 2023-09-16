@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hill Cipher Quiz</title>
+    <style>
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+
+        h1 {
+            background-color:#373D3B;
+            color: #5EC989;
+            padding: 10px;
+            text-align: center;
+        }
+
+        div{
+            background-color: black;
+            padding: 20px;
+            margin-top: 20px;
+            color: white;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .feedback {
+            font-weight: bold;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+        p{
+            font-weight:bold;
+            color: white;
+
+        }
+    </style>
+</head>
+<body>
+    <h1>Hill Cipher Quiz</h1>
+    <p>Matrix Key (3x3):</p>
+    <p>1 2 3</p>
+    <p>0 1 4</p>
+    <p>2 3 5</p>
+
+    <div class="quiz">
+        <label for="q1">1. Encode "HELLO" using the given key:</label>
+        <input type="text" id="q1">
+        <span class="feedback" id="feedback1"></span>
+
+        <label for="q2">2. Encode "WORLD" using the given key:</label>
+        <input type="text" id="q2">
+        <span class="feedback" id="feedback2"></span>
+
+        <label for="q3">3. Encode "HILL" using the given key:</label>
+        <input type="text" id="q3">
+        <span class="feedback" id="feedback3"></span>
+
+        <label for="q4">4. Encode "QUIZ" using the given key:</label>
+        <input type="text" id="q4">
+        <span class="feedback" id="feedback4"></span>
+
+        <label for="q5">5. Encode "CIPHER" using the given key:</label>
+        <input type="text" id="q5">
+        <span class="feedback" id="feedback5"></span>
+
+        <label for="q6">6. Decode "ZKNY" using the given key:</label>
+        <input type="text" id="q6">
+        <span class="feedback" id="feedback6"></span>
+
+        <label for="q7">7. Decode "VQLD" using the given key:</label>
+        <input type="text" id="q7">
+        <span class="feedback" id="feedback7"></span>
+
+        <label for="q8">8. Decode "RNCE" using the given key:</label>
+        <input type="text" id="q8">
+        <span class="feedback" id="feedback8"></span>
+
+        <label for="q9">9. Decode "WUSF" using the given key:</label>
+        <input type="text" id="q9">
+        <span class="feedback" id="feedback9"></span>
+
+        <label for="q10">10. Decode "PFEQN" using the given key:</label>
+        <input type="text" id="q10">
+        <span class="feedback" id="feedback10"></span>
+    </div>
+
+    <script>
+        const encodingAnswers = {
+            q1: 'NEFSS',
+            q2: 'XLFOT',
+            q3: 'VHYW',
+            q4: 'VXZB',
+            q5: 'VPXIPR',
+        };
+
+        const decodingAnswers = {
+            q6: 'TIME',
+            q7: 'GOOD',
+            q8: 'WORK',
+            q9: 'READ',
+            q10: 'ENCRYPT',
+        };
+
+        document.addEventListener('input', (e) => {
+            if (e.target.type === 'text') {
+                const questionId = e.target.id;
+                const userAnswer = e.target.value.toUpperCase();
+                const feedback = document.getElementById(`feedback${questionId.charAt(1)}`);
+                if (encodingAnswers.hasOwnProperty(questionId) && userAnswer === encodingAnswers[questionId]) {
+                    feedback.textContent = '✓ Correct';
+                    feedback.classList.remove('incorrect');
+                    feedback.classList.add('correct');
+                } else if (decodingAnswers.hasOwnProperty(questionId) && userAnswer === decodingAnswers[questionId]) {
+                    feedback.textContent = '✓ Correct';
+                    feedback.classList.remove('incorrect');
+                    feedback.classList.add('correct');
+                } else {
+                    feedback.textContent = '✗ Incorrect';
+                    feedback.classList.remove('correct');
+                    feedback.classList.add('incorrect');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

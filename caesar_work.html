@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Caesar Cipher</title>
+    <style>
+        /* CSS styles for the web page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+        }
+
+        h1 {
+            background-color: #373D3B;
+            color: #5EC989;
+            padding: 10px;
+            text-align: center;
+        }
+
+        button {
+            font: Arial;
+            font-weight: bold;
+        }
+
+        button:hover {
+            color: #5EC989;
+        }
+
+        .cipher {
+            color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Caesar Cipher</h1>
+    
+    <div class="cipher">
+        <label for="textToEncrypt">Text to Encrypt/Decrypt:</label>
+        <input type="text" id="textToEncrypt">
+        
+        <label for="shiftAmount">Shift Amount:</label>
+        <input type="text" id="shiftAmount">
+        
+        <button onclick="encryptText()">Encrypt</button>
+        <button onclick="decryptText()">Decrypt</button>
+        
+        <div class="result" id="cipherResult"></div>
+    </div>
+
+    <script>
+        // JavaScript for Caesar Cipher
+        function encryptText() {
+            const textToEncrypt = document.getElementById('textToEncrypt').value;
+            const shiftAmount = parseInt(document.getElementById('shiftAmount').value);
+            const encryptedText = caesarCipher(textToEncrypt, shiftAmount);
+            document.getElementById('cipherResult').textContent = `Encrypted Text: ${encryptedText}`;
+        }
+
+        function decryptText() {
+            const textToDecrypt = document.getElementById('textToEncrypt').value;
+            const shiftAmount = parseInt(document.getElementById('shiftAmount').value);
+            const decryptedText = caesarCipher(textToDecrypt, -shiftAmount); // Decrypt using a negative shift
+            document.getElementById('cipherResult').textContent = `Decrypted Text: ${decryptedText}`;
+        }
+
+        function caesarCipher(text, shift) {
+            let result = '';
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                if (char.match(/[a-z]/i)) {
+                    const charCode = text.charCodeAt(i);
+                    if (charCode >= 65 && charCode <= 90) { // Uppercase letters
+                        char = String.fromCharCode(((charCode - 65 + shift) % 26 + 26) % 26 + 65);
+                    } else if (charCode >= 97 && charCode <= 122) { // Lowercase letters
+                        char = String.fromCharCode(((charCode - 97 + shift) % 26 + 26) % 26 + 97);
+                    }
+                }
+                result += char;
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>
