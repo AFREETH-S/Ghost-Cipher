@@ -6,24 +6,65 @@
     <h1>About Us</h1>
 </head>
 <style>
-    p{  
-        padding: 50px;
-        font-weight: bold;
-        font-size: larger;
-        page-break-inside: avoid;
-        float: left;
-        width: 50%;
-        
+   * {
+    margin: 0;
+    padding: 0;
+}
 
-    }
-    
-    body{
-        background-image: url("cod.jpg");
-    }
-    h1{
+body {
+    background-image: url("cod.jpg");
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+/* Style the header */
+h1 {
+    text-align: center;
+    color: whitesmoke;
+    padding: 20px;
+}
+
+/* Center-align the entire table */
+.center-table {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 10vh; /* Ensure the table takes at least the full viewport height */
+}
+
+/* Style the paragraphs for the content */
+p {
+    font-weight: normal;
+    font-size: 16px;
+    color: white;
+    padding: 20px;
+    margin: 10px 0;
+    line-height: 1.5;
+    background-color: rgba(51, 51, 51, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    width: 48%;
+    margin-right: 20%;
+    text-align: center;
+}
+
+/* Clear the float to ensure proper layout */
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Center-align the header and paragraphs on larger screens */
+@media (min-width: 768px) {
+    h1, p {
+        margin: 0 auto;
         text-align: center;
     }
+}
+
 </style>
+
 <body>
 
     <p>🌟 My Journey: I'm not just a student; I'm a passionate individual who embarked on a solo mission to bring ideas to life. My journey began with a spark of inspiration, and today, I'm proud to have completed this project from start to finish.</p>        

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Playfair Cipher</title>
+    <link rel="stylesheet" type="text/css" href="challenge_style.css">
+</head>
+<body>
+    <h1>Playfair Cipher</h1>
+    
+    <div class="qa">
+        <label for="textToEncrypt">Text to Encrypt/Decrypt:</label>
+        <input type="text" class="curved-input" id="textToEncrypt">
+        
+        <label for="key">Key:</label>
+        <input type="text" class="curved-input" id="key">
+        
+        <button onclick="encryptText()">Encrypt</button>
+        <button onclick="decryptText()">Decrypt</button>
+        
+        <div class="result" id="cipherResult"></div>
+    </div>
+
+    <script>
+        function encryptText() {
+            const textToEncrypt = document.getElementById('textToEncrypt').value;
+            const key = document.getElementById('key').value;
+            const encryptedText = playfairCipherEncrypt(textToEncrypt, key);
+            document.getElementById('cipherResult').textContent = `Encrypted Text: ${encryptedText}`;
+        }
+
+        function decryptText() {
+            const textToDecrypt = document.getElementById('textToEncrypt').value;
+            const key = document.getElementById('key').value;
+            const decryptedText = playfairCipherDecrypt(textToDecrypt, key);
+            document.getElementById('cipherResult').textContent = `Decrypted Text: ${decryptedText}`;
+        }
+
+        function playfairCipherEncrypt(text, key) {
+            const plaintext = text.toUpperCase().replace(/[^A-Z]/g, ''); 
+            const keyMatrix = generateKeyMatrix(key.toUpperCase());
+            const pairs = createPairs(plaintext);
+            let ciphertext = '';
+
+            for (const pair of pairs) {
+                const [char1, char2] = pair;
+                const [row1, col1] = findCharPosition(keyMatrix, char1);
+                const [row2, col2] = findCharPosition(keyMatrix, char2);
+
+                let encryptedPair = '';
+                if (row1 === row2) { 
+                    encryptedPair += keyMatrix[row1][(col1 + 1) % 5];
+                    encryptedPair += keyMatrix[row2][(col2 + 1) % 5];
+                } else if (col1 === col2) { 
+                    encryptedPair += keyMatrix[(row1 + 1) % 5][col1];
+                    encryptedPair += keyMatrix[(row2 + 1) % 5][col2];
+                } else { 
+                    encryptedPair += keyMatrix[row1][col2];
+                    encryptedPair += keyMatrix[row2][col1];
+                }
+
+                ciphertext += encryptedPair;
+            }
+
+            return ciphertext;
+        }
+
+        function playfairCipherDecrypt(text, key) {
+            const ciphertext = text.toUpperCase().replace(/[^A-Z]/g, ''); 
+            const keyMatrix = generateKeyMatrix(key.toUpperCase());
+            const pairs = createPairs(ciphertext);
+            let plaintext = '';
+
+            for (const pair of pairs) {
+                const [char1, char2] = pair;
+                const [row1, col1] = findCharPosition(keyMatrix, char1);
+                const [row2, col2] = findCharPosition(keyMatrix, char2);
+
+                let decryptedPair = '';
+                if (row1 === row2) {
+                    decryptedPair += keyMatrix[row1][(col1 - 1 + 5) % 5];
+                    decryptedPair += keyMatrix[row2][(col2 - 1 + 5) % 5];
+                } else if (col1 === col2) { 
+                    decryptedPair += keyMatrix[(row1 - 1 + 5) % 5][col1];
+                    decryptedPair += keyMatrix[(row2 - 1 + 5) % 5][col2];
+                } else { 
+                    decryptedPair += keyMatrix[row1][col2];
+                    decryptedPair += keyMatrix[row2][col1];
+                }
+
+                plaintext += decryptedPair;
+            }
+
+            return plaintext;
+        }
+
+        function generateKeyMatrix(key) {
+            const alphabet = 'ABCDEFGHIKLMNOPQRSTUVWXYZ';
+            const keyMatrix = [];
+
+            for (let i = 0; i < 5; i++) {
+                keyMatrix.push([]);
+            }
+
+            let keyIndex = 0;
+
+            for (let row = 0; row < 5; row++) {
+                for (let col = 0; col < 5; col++) {
+                    if (keyIndex < key.length) {
+                        let char = key[keyIndex];
+                        while (keyMatrix.flat().includes(char) || char === 'J') {
+                            keyIndex++;
+                            char = key[keyIndex];
+                        }
+                        keyMatrix[row][col] = char;
+                        keyIndex++;
+                    } else {
+                        let char = alphabet.charAt(0);
+                        while (keyMatrix.flat().includes(char) || char === 'J') {
+                            char = alphabet.charAt(0);
+                            alphabet = alphabet.substring(1) + alphabet.charAt(0);
+                        }
+                        keyMatrix[row][col] = char;
+                    }
+                }
+            }
+
+            return keyMatrix;
+        }
+
+        function createPairs(text) {
+            const pairs = [];
+            let i = 0;
+
+            while (i < text.length) {
+                if (i === text.length - 1 || text[i] === text[i + 1]) {
+                    pairs.push([text[i], 'X']);
+                    i += 2;
+                } else {
+                    pairs.push([text[i], text[i + 1]]);
+                    i += 2;
+                }
+            }
+
+            return pairs;
+        }
+
+        function findCharPosition(matrix, char) {
+            for (let row = 0; row < matrix.length; row++) {
+                for (let col = 0; col < matrix[row].length; col++) {
+                    if (matrix[row][col] === char) {
+                        return [row, col];
+                    }
+                }
+            }
+            return [-1, -1]; 
+        }
+
+    </script>
+</body>
+</html>
